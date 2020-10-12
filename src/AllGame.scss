@@ -1,0 +1,90 @@
+// game sass
+.base {
+    background-color: #f0f0f0;
+    min-height: 100vh;
+}
+
+.game {
+    margin-top: 10px;
+    margin: 0 auto;
+    width: 600px;
+    .toolbar {
+        padding: 20px;
+        background-color: #c5d5c5;
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        color: #ffffff;    
+        .select-difficulty {
+            margin-left: 30px;
+            border-radius: 3px;
+            padding: 5px;
+            width: 110px;
+        }
+    
+        .img-wrapper {
+            span {
+                margin-right: 50px;
+            }
+            img {
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+// grid sass
+.grid {
+    table-layout: fixed;
+    width: 100%;
+    border-spacing: 0px;
+    border-collapse: separate;
+    height: 420px;
+    tr {
+        background-color: #AAD4AA;
+        :nth-child(even) {
+            background-color: #99D599;
+
+        }
+    }
+    td {
+        border: none;
+        outline: none;
+        background-color: #AAD4AA;
+    }
+}
+
+.finish-message {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    margin-left: auto;
+    width: 300px;
+    height: 200px;
+    opacity: 0.85;
+    background-color: #716F6F;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    padding-top: 45px;
+    z-index: 2;
+    border-radius: 3px;
+    .play-again {
+        padding-top: 20px;
+        margin-right: 10px;
+        font-size: 24px;
+        img {
+            margin-left: 10px;
+            transform: rotate(240deg);
+        }
+    }
+    .play-again:hover {
+        cursor: pointer;
+    }
+
+}
+  
+
+
