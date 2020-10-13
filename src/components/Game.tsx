@@ -30,7 +30,7 @@ export default class Game extends React.Component<{}, ComponentState> {
 
   render() {
     return (
-      <div className="base">
+      <div>
         <div className="game">
           <div className="toolbar"> 
             <select onChange={this.handleChange} value={this.state.difficultyLevel} className="select-difficulty">
