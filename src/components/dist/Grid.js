@@ -104,7 +104,11 @@ var Grid = /** @class */ (function (_super) {
             if (_this.state.gridData[r][c].state === STATE_SHOWN)
                 return;
             updatedGridData[r][c].state = STATE_SHOWN;
-            _this.setState(function (prev) { return (__assign(__assign({}, prev), { uncoveredSquares: prev.uncoveredSquares + 1 })); });
+            _this.setState(function (prev) { return (__assign(__assign({}, prev), { uncoveredSquares: prev.uncoveredSquares + 1 })); }, function () {
+                if (_this.state.uncoveredSquares === _this.props.height * _this.props.width - _this.props.mines && !_this.state.exploded) {
+                    _this.props.stopCountingTime();
+                }
+            });
             //if neighbours have mines, return
             if (_this.state.gridData[r][c].count !== 0)
                 return;

@@ -184,7 +184,13 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
         if( this.state.gridData[r][c].state === STATE_SHOWN) return;
 
         updatedGridData[r][c].state = STATE_SHOWN;
-        this.setState(prev => ({...prev, uncoveredSquares: prev.uncoveredSquares + 1}))
+        this.setState(prev => ({...prev, uncoveredSquares: prev.uncoveredSquares + 1}),
+            () => {
+                if(this.state.uncoveredSquares === this.props.height * this.props.width - this.props.mines && !this.state.exploded) {
+                    this.props.stopCountingTime();
+                }
+            }
+        )
 
         //if neighbours have mines, return
         if( this.state.gridData[r][c].count !== 0) return;
