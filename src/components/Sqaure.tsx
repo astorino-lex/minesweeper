@@ -23,8 +23,7 @@ export default class Sqaure extends React.Component<ComponentProps, {}> {
         let medium = this.props.mines === 40;
         let count = this.props.data.count;
         return (
-            <div className="sqaure" 
-                style={{ height: medium ? '30px' : '52px', fontSize: medium ? '18px' : '25px', textAlign: 'center'}}
+            <div style={{ height: medium ? '30px' : '52px', fontSize: medium ? '18px' : '25px', textAlign: 'center'}}
                 onClick={() => this.props.onLeftClick(row, column)}
                 onContextMenu={(e) => this.props.onRightClick(row, column, e)}
             >
