@@ -64,7 +64,7 @@ var Game = /** @class */ (function (_super) {
             }
             _this.setState(function (prev) { return (__assign(__assign({}, prev), { difficultyLevel: selectedOption, mines: mines, gridHeight: gridHeight, gridWidth: gridWidth, flags: mines })); });
         };
-        _this.updateFlagCount = function (markedSquares) { return _this.setState(function (prev) { return (__assign(__assign({}, prev), { flags: prev.flags - markedSquares })); }); };
+        _this.updateFlagCount = function (markedSquares) { return _this.setState(function (prev) { return (__assign(__assign({}, prev), { flags: _this.state.mines - markedSquares })); }); };
         _this.startCountingTime = function () {
             var intervalId = setInterval(function () { _this.setState(function (prev) { return (__assign(__assign({}, prev), { timeCount: prev.timeCount + 1 })); }); }, 1000);
             _this.setState(function (prev) { return (__assign(__assign({}, prev), { intervalId: intervalId })); });

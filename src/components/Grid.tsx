@@ -76,7 +76,7 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
                     </div>    
                     : null   
                 }
-                <table className="grid">
+                <table className="grid" style={{pointerEvents: this.state.exploded ? 'none' : 'auto'}}>
                     <tbody>
                         {this.createGrid()}
                     </tbody>
@@ -129,16 +129,16 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
         e.preventDefault();
         if(!this.isValidCoordinate(row,col)) return false;
 
-        // if cell is not hidden
-        if( this.state.gridData[row][col].state !== STATE_HIDDEN) return false;
+        // if cell is shown, do nothing
+        if(this.state.gridData[row][col].state === STATE_SHOWN) return false;
 
         let updatedGridData: SquareData[][] = this.state.gridData;
 
         updatedGridData[row][col].state = updatedGridData[row][col].state === STATE_MARKED ? STATE_HIDDEN : STATE_MARKED;
-      
+
         this.setState(prev => 
             ({ ...prev,
-                markedSqaures: prev.markedSqaures + prev.gridData[row][col].state === STATE_MARKED ? -1 : 1,
+                markedSqaures: updatedGridData[row][col].state === STATE_MARKED ? prev.markedSqaures + 1 : prev.markedSqaures - 1,
                 gridData: updatedGridData                          
         }),
             () => this.props.updateFlagCount(this.state.markedSqaures)
@@ -157,10 +157,9 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
             this.props.startCounting();
         }
 
-        //if sqaure is already revealed
+        //if sqaure is already revealed or marked, do nothing
         if(this.state.gridData[row][col].state !== STATE_HIDDEN) 
             return false;
-
         
         let updatedGridData: SquareData[][] = this.state.gridData;
     
@@ -226,13 +225,16 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
         //clear any previously marked sqaures and update counts
         for(let r = 0 ; r < this.props.height ; r ++ ) {
             for( let c = 0 ; c < this.props.width ; c ++ ) {
-                if(newGridData[r][c].state === STATE_MARKED)
+                if(newGridData[r][c].state === STATE_MARKED) {
                     newGridData[r][c].state = STATE_HIDDEN;
+                }
                 newGridData[r][c].count = this.count(r,c, newGridData);
             }
         }
 
-        this.setState(prev => ({...prev, gridData: newGridData }));
+        this.setState(prev => ({...prev, gridData: newGridData, markedSqaures: 0 }),
+            () => this.props.updateFlagCount(this.state.markedSqaures)
+        );
     }
 
     private randomNumber = (min: number, max: number) => {

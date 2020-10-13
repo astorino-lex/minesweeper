@@ -92,7 +92,7 @@ export default class Game extends React.Component<{}, ComponentState> {
                             }));
   }
 
-  private updateFlagCount = (markedSquares: number) => this.setState(prev => ({ ...prev, flags: prev.flags - markedSquares}));
+  private updateFlagCount = (markedSquares: number) => this.setState(prev => ({ ...prev, flags: this.state.mines - markedSquares}));
 
   private startCountingTime = () => {
     let intervalId = setInterval(() => { this.setState(prev => ({...prev, timeCount: prev.timeCount + 1}))}, 1000);
