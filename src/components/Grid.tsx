@@ -125,11 +125,12 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
         return data;
     }
 
+    //mark/flag
     private handleRightClick = (row: number, col: number, e: MouseEvent) => {
         e.preventDefault();
         if(!this.isValidCoordinate(row,col)) return false;
 
-        // if cell is shown, do nothing
+        // if cell is already shown, do nothing
         if(this.state.gridData[row][col].state === STATE_SHOWN) return false;
 
         let updatedGridData: SquareData[][] = this.state.gridData;
@@ -144,9 +145,10 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
             () => this.props.updateFlagCount(this.state.markedSqaures)
         );
 
-        return false;
+        return true;
     }
 
+    //uncover
     private handleLeftClick = (row: number, col: number) => {
         if(!this.isValidCoordinate(row,col)) 
             return false;
@@ -174,16 +176,19 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
             this.setState(prev => ({...prev, exploded: true}));
             this.props.stopCountingTime();
         }
+
+        return true;
     }
 
     private reveal = (r: number, c: number, updatedGridData: SquareData[][]) => {
                 
         if(!this.isValidCoordinate(r, c)) return;
         
-        //if already shown, return
-        if( this.state.gridData[r][c].state === STATE_SHOWN) return;
+        //if already shown or marked, dont reveal
+        if( this.state.gridData[r][c].state !== STATE_HIDDEN) return;
 
         updatedGridData[r][c].state = STATE_SHOWN;
+        
         this.setState(prev => ({...prev, uncoveredSquares: prev.uncoveredSquares + 1}),
             () => {
                 if(this.state.uncoveredSquares === this.props.height * this.props.width - this.props.mines && !this.state.exploded) {
