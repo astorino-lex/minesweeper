@@ -175,6 +175,12 @@ var Grid = /** @class */ (function (_super) {
         _this.isValidCoordinate = function (row, col) {
             return row >= 0 && row < _this.props.height && col >= 0 && col < _this.props.width;
         };
+        _this.handleReplay = function () {
+            _this.setState(function (prev) {
+                return (__assign(__assign({}, prev), { gridData: _this.generateGridData(), exploded: false, markedSqaures: 0, uncoveredSquares: 0 }));
+            }, function () { return _this.props.updateFlagCount(_this.state.markedSqaures); });
+            _this.props.resetCountingTime();
+        };
         _this.getColor = function (row, col) {
             var color1 = "#99D599";
             var color2 = "#83D183";
@@ -225,7 +231,7 @@ var Grid = /** @class */ (function (_super) {
                     react_1["default"].createElement("div", null, winner ?
                         "You Won!"
                         : "You Lost!"),
-                    react_1["default"].createElement("div", { className: "play-again", onClick: function () { return window.location.reload(); } },
+                    react_1["default"].createElement("div", { className: "play-again", onClick: this.handleReplay },
                         "Play again",
                         react_1["default"].createElement("img", { src: replay_png_1["default"], width: 35, alt: "replay" })))
                 : null,

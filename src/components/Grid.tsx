@@ -14,6 +14,7 @@ interface ComponentProps {
     updateFlagCount: (markedSquares: number) => void;
     startCounting: () => void;
     stopCountingTime: () => void;
+    resetCountingTime: () => void;
 }
 
 interface ComponentState {
@@ -69,7 +70,7 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
                                 : "You Lost!"
                             }
                         </div>
-                        <div className="play-again" onClick={() => window.location.reload()}>
+                        <div className="play-again" onClick={this.handleReplay}>
                             Play again
                             <img src={replay} width={35} alt="replay" />
                         </div>
@@ -188,7 +189,7 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
         if( this.state.gridData[r][c].state !== STATE_HIDDEN) return;
 
         updatedGridData[r][c].state = STATE_SHOWN;
-        
+
         this.setState(prev => ({...prev, uncoveredSquares: prev.uncoveredSquares + 1}),
             () => {
                 if(this.state.uncoveredSquares === this.props.height * this.props.width - this.props.mines && !this.state.exploded) {
@@ -267,6 +268,19 @@ export default class Grid extends React.Component<ComponentProps, ComponentState
 
     private isValidCoordinate = (row: number, col: number) => {
         return row >= 0 && row < this.props.height && col >= 0 && col < this.props.width;
+    }
+
+    private handleReplay = () => {
+        this.setState(prev => 
+            ({...prev, 
+                gridData: this.generateGridData(),
+                exploded: false,
+                markedSqaures: 0,
+                uncoveredSquares: 0
+        }),
+            () => this.props.updateFlagCount(this.state.markedSqaures)
+        );
+        this.props.resetCountingTime();
     }
 
     private getColor = (row: number, col: number): string => {

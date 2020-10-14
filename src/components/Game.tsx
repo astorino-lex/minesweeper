@@ -56,6 +56,7 @@ export default class Game extends React.Component<{}, ComponentState> {
             updateFlagCount={this.updateFlagCount}
             startCounting={this.startCountingTime}
             stopCountingTime={this.stopCountingTime}
+            resetCountingTime={this.resetCountingTime}
           />
         </div>
       </div>
@@ -101,6 +102,11 @@ export default class Game extends React.Component<{}, ComponentState> {
 
   private stopCountingTime = () => {
     clearInterval(this.state.intervalId);
+  }
+
+  private resetCountingTime = () => {
+    clearInterval(this.state.intervalId);
+    this.setState(prev => ({...prev, timeCount: 0}));
   }
 
 }
